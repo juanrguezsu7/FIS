@@ -19,6 +19,9 @@ class KeySystem {
               const User& user);
   // Eliminar cerradura
   void delKey(const Key& key);
+
+  // Añadir Usuario a Cerradura
+  void addUsertoKey(const Key& key, const User& user);
   
   // Abrir cerradura
   void openKey(const Key& key, const User& user);
