@@ -9,7 +9,7 @@
 class Key {
  public:
   // Constructor
-  Key(const unsigned& id, const std::string& password, User& user)
+  Key(const unsigned& id, const std::string& password, const User& user)
       : id_(id), state_(0), password_(password) {
     // Añade a users_ el id del usuario que lo creo con acceso (1)
     users_[user.getId()] = 1;
