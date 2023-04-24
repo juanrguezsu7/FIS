@@ -1,16 +1,32 @@
 // Funciones de la clase KEY
 #include "keysystem.hpp"
 
+/**
+ * @brief Notificación de que se está abriendo la cerradura.
+ */
 void KeySystem::notify() {
   std::cout << "Notificación: La cerradura está siendo accedida." << '\n';
 }
 
-void KeySystem::addUser(const std::string& name, const unsigned& id, const unsigned& access_level){
-  User new_user (name, id, access_level);
+/**
+ * @brief Añade un usuario al sistema.
+ * 
+ * @param name Nombre del usuario.
+ * @param id Identificador del usuario.
+ */
+void KeySystem::addUser(const std::string& name, const unsigned& id) {
+  User new_user (name, id);
   this->users_.reserve(1);
   this->users_.emplace_back(new_user);
 }
 
+/**
+ * @brief Añade una llave al sistema.
+ * 
+ * @param id Identificador de la llave.
+ * @param password Contraseña de la llave.
+ * @param user Usuario con acceso a la llave.
+ */
 void KeySystem::addKey(const unsigned& id, const std::string& password, const User& user){
   Key new_key (id, password, user);
   this->keys_.reserve(1);
@@ -23,7 +39,7 @@ void KeySystem::addKey(const unsigned& id, const std::string& password, const Us
  * @param key Cerradura a la que el usuario podra acceder
  * @param user Usuario en cuestion
  */
-void KeySystem::addUserToKey(const Key& key, const User& user) {
+void KeySystem::addUserToKey(Key& key, const User& user) {
   key.setUserAccess(user, 1);
 }
 
@@ -33,7 +49,7 @@ void KeySystem::addUserToKey(const Key& key, const User& user) {
  * @param key Cerradura a abrir
  * @param user Usuario que solicita la apertura
  */
-void KeySystem::openKey(const Key& key, const User& user) {
+void KeySystem::openKey(Key& key, const User& user) {
   key.open(user);
 }
 
@@ -43,6 +59,107 @@ void KeySystem::openKey(const Key& key, const User& user) {
  * @param key Cerradura a cerrar
  * @param user Usuario que solicita el cierre
  */
-void KeySystem::openKey(const Key& key, const User& user) {
+void KeySystem::closeKey(Key& key, const User& user) {
   key.close(user);
+}
+
+/**
+ * @brief Obtener User a partir de su nombre.
+ * 
+ * @param nombre Nombre de usuario.
+ * @return Referencia a User.
+ */
+User& KeySystem::getUser(const std::string& nombre) {
+  for (auto& user : users_) {
+    if (user.getName() == nombre) return user;
+  }
+  throw std::out_of_range{"Usuario no encontrado en getUser()."};
+}
+
+/**
+ * @brief Obtener Key a partir de su ID.
+ * 
+ * @param id ID de llave.
+ * @return Referencia a Key.
+ */
+Key& KeySystem::getKey(const unsigned id) {
+  for (auto& key : keys_) {
+    if (key.getId() == id) return key;
+  }
+  throw std::out_of_range{"Llave no encontrada en getKey()."};
+}
+
+/**
+ * @brief Comprueba si existe un usuario en el sistema dado su nombre.
+ * 
+ * @param nombre Nombre del usuario.
+ * @return True si existe, False si no.
+ */
+bool KeySystem::userExists(const std::string& name) {
+  for (auto user : users_) {
+    if (user.getName() == name) return true;
+  }
+  return false;
+}
+
+/**
+ * @brief Comprueba si existe una llave en el sistema dada su ID.
+ * 
+ * @param id ID de la llave.
+ * @return True si existe, False si no.
+ */
+bool KeySystem::keyExists(const unsigned id) {
+  for (auto key : keys_) {
+    if (key.getId() == id) return true;
+  }
+  return false;
+}
+
+/**
+ * @brief Elimina un usuario del sistema.
+ * 
+ * @param user Usuario a eliminar.
+ */
+void KeySystem::delUser(const User& user) {
+  for (auto i{users_.begin()}; i != users_.end(); ++i) {
+    if (i->getId() == user.getId()) {
+      users_.erase(i);
+    }
+  }  
+}
+
+/**
+ * @brief Añade un usuario al sistema.
+ * 
+ * @param user Usuario a añadir.
+ */
+void KeySystem::delKey(const Key& key) {
+  for (auto i{keys_.begin()}; i != keys_.end(); ++i) {
+    if (i->getId() == key.getId()) {
+      keys_.erase(i);
+    }
+  }  
+}
+
+/**
+ * @brief Muestra una información resumida de las llaves del sistema.
+ */
+void KeySystem::mostrarLlaves() {
+  std::cout << "\t***Llaves***\n";
+  if (keys_.empty()) std::cout << "No hay llaves aún.\n";
+  for (auto key : keys_) {
+    std::cout << "ID/Contraseña/Estado: " << key.getId() << ' ';
+    for (int i{0}; i < key.getPassword().length(); ++i) std::cout << '*';
+    std::cout << ' ' << (key.getState() ? "Abierta" : "Cerrada");
+    std::cout << '\n';
+  }
+}
+
+/**
+ * @brief Muestra una información resumida de los usuarios del sistema.
+ */
+void KeySystem::mostrarUsuarios() { 
+  std::cout << "\t***Usuarios***\n";
+  if (users_.empty()) std::cout << "No hay usuarios aún.\n";
+  for (auto usuario : users_) std::cout << "Nombre/ID: " << usuario.getName() << ' ' << usuario.getId() << '\n'; 
 }

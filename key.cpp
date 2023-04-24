@@ -1,6 +1,8 @@
 // Métodos de la clase key (key.hpp)
 #include "key.hpp"
 
+unsigned Key::contador_id_keys = 0;
+
 // Método para abrir la cerradura
 void Key::open(const User& user) {
   // Comprueba si el usuario existe en la cerradura
@@ -52,4 +54,13 @@ void Key::close(const User& user) {
 // Gestiona el acceso de un usuario (1 puede acceder, 0 no)
 void Key::setUserAccess(const User& user, const bool& access) {
   users_[user.getId()] = access;
+}
+
+std::istream& operator>>(std::istream& in, Key& key) {
+  std::cout << "Introduzca la contraseña de la nueva con ID " << Key::contador_id_keys << ": ";
+  std::string password;
+  in >> password;
+  key = Key{Key::contador_id_keys, password};
+  ++Key::contador_id_keys;
+  return in;
 }
