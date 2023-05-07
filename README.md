@@ -23,5 +23,20 @@ El siguiente ejecutable es un sistema de gestión de cerraduras inteligentes cre
 
     `make clean`
 
-## Funciones del ejecutable
+## Funciones implemantadas
 
+1. Como usuario:
+
+    `abrir`, `cerrar`
+
+2. Como administrador:
+
+    `crear llave`, `crear usuario`, `añadir a usuario acceso a llave`
+
+3. Comunes:
+
+    `mostrar llaves`, `mostrar usuarios`,`seleccionar llave`,`salir`
+
+## Funciones faltantes
+
+`eliminar usuario`,`eliminar llave`,`eliminar acceso de usuario a llave`,`notificar incidencia`,`ver historial de la llave(incidencias/usos)`
