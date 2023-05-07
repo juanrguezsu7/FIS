@@ -5,9 +5,9 @@ OBJ1 = key
 OBJ2 = keysystem
 OBJ3 = user
 
-all: ${OBJ0}
+all: clean ${OBJ0}
 
 ${OBJ0}:
-	${CC} ${CXXFLAGS} $@ ${OBJ0}.cpp ${OBJ1}.cpp ${OBJ2}.cpp ${OBJ3}.cpp $@_functions.cpp
+	${CC} ${CXXFLAGS} $@ src/${OBJ0}.cpp src/${OBJ1}.cpp src/${OBJ2}.cpp src/${OBJ3}.cpp src/$@_functions.cpp
 clean:
 	rm -f ./${OBJ0}
