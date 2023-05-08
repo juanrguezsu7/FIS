@@ -44,6 +44,8 @@ class Key {
   void close(const User& user);
   // Edita el acceso del usuario
   void setUserAccess(const User& user, const bool& access);
+  // 0=usuario sin accesso, 1=usuario con acceso
+  bool getUserAccess(const User& user);
 
   // Operadores
   // friend std::istream& operator>>(std::istream& in, Key& key);

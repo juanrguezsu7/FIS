@@ -58,11 +58,19 @@ void Key::setUserAccess(const User& user, const bool& access) {
   users_[user.getId()] = access;
 }
 
+// 0=usuario sin accesso, 1=usuario con acceso
+bool Key::getUserAccess(const User& user) {
+  bool user_access{false};
+  if (!users_.empty()) {
+    if (users_.find(user.getId())->second) user_access = true;
+  }
+  return user_access;
+}
+
 /* std::istream& operator>>(std::istream& in, Key& key) {
-  std::cout << "Introduzca la contraseña de la nueva con ID " << Key::contador_id_keys << " >>> ";
-  std::string password;
-  in >> password;
-  key = Key{Key::contador_id_keys, password};
+  std::cout << "Introduzca la contraseña de la nueva con ID " <<
+Key::contador_id_keys << " >>> "; std::string password; in >> password; key =
+Key{Key::contador_id_keys, password};
   ++Key::contador_id_keys;
   return in;
 } */
