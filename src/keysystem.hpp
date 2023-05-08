@@ -15,19 +15,20 @@ class KeySystem {
   void addUser(const std::string& name, const unsigned& id);
   void addUser(const User& user) { users_.emplace_back(user); }
 
-  // Eliminar usuario
-  void delUser(const User& user);
-
   // Añadir cerradura
   void addKey(const unsigned& id, const std::string& password,
               const User& user);
   void addKey(const Key& key) { keys_.emplace_back(key); }
 
   // Eliminar cerradura
-  void delKey(const Key& key);
+  bool delKey(const Key& key);
+  // Eliminar usuario
+  bool delUser(const User& user);
 
   // Añadir Usuario a Cerradura
   void addUserToKey(Key& key, const User& user);
+  // Eliminar Usuario a Cerradura
+  void delUserFromKey(Key& key, const User& user);
 
   // Abrir cerradura
   void openKey(Key& key, const User& user);

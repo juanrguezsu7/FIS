@@ -44,6 +44,16 @@ void KeySystem::addUserToKey(Key& key, const User& user) {
 }
 
 /**
+ * @brief Elimina un Usuario de la lista de accesos de x cerradura.
+ * 
+ * @param key Cerradura a la que el usuario no podra acceder
+ * @param user Usuario en cuestion
+ */
+void KeySystem::delUserFromKey(Key& key, const User& user) {
+  key.setUserAccess(user, 0);
+}
+
+/**
  * @brief Abre la cerradura
  * 
  * @param key Cerradura a abrir
@@ -96,7 +106,7 @@ Key& KeySystem::getKey(const unsigned id) {
  * @return True si existe, False si no.
  */
 bool KeySystem::userExists(const std::string& name) {
-  for (auto user : users_) {
+  for (auto& user : users_) {
     if (user.getName() == name) return true;
   }
   return false;
@@ -119,26 +129,32 @@ bool KeySystem::keyExists(const unsigned id) {
  * @brief Elimina un usuario del sistema.
  * 
  * @param user Usuario a eliminar.
+ * @return True si se eliminó, False si no existía en la llave.
  */
-void KeySystem::delUser(const User& user) {
+bool KeySystem::delUser(const User& user) {
   for (auto i{users_.begin()}; i != users_.end(); ++i) {
     if (i->getId() == user.getId()) {
       users_.erase(i);
+      return true;
     }
-  }  
+  }
+  return false;
 }
 
 /**
- * @brief Añade un usuario al sistema.
+ * @brief Elimina una llave del sistema
  * 
- * @param user Usuario a añadir.
+ * @param key Llave a eliminar.
+ * @return True si se eliminó, False si no existía.
  */
-void KeySystem::delKey(const Key& key) {
+bool KeySystem::delKey(const Key& key) {
   for (auto i{keys_.begin()}; i != keys_.end(); ++i) {
     if (i->getId() == key.getId()) {
       keys_.erase(i);
+      return true;
     }
-  }  
+  }
+  return false;
 }
 
 /**

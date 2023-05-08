@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "user.hpp"
+#include "registry.hpp"
 
 class Key {
  public:
@@ -32,6 +33,11 @@ class Key {
   std::string getPassword() const { return password_; }
   void setPassword(const std::string& password) { password_ = password; };
 
+  // Mostrar historial
+  void printRegistry() const { historial_.printRegistry(); }
+  // Añadir incidencia al historial
+  void addNotification(User& usuario, const std::string& notificacion) { historial_.addNotificationEntry(usuario.getName(), notificacion); }
+
   // Abre la cerradura
   void open(const User& user);
   // Cierra la cerradura
@@ -54,4 +60,6 @@ class Key {
   std::string password_;
   // Usuarios con acceso a la cerradura
   std::map<unsigned, bool> users_;
+  // Historial de accesos
+  Registry historial_;
 };

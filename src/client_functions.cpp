@@ -76,7 +76,7 @@ void MenuLlave(Key& llave, KeySystem& sistema) {
     std::cout
         << "*** Gestión de la llave id=" + std::to_string(llave.getId()) +
                "***\n\n[1] - Abrir.\n[2] - Cerrar.\n\n[3] - Añadir usuario a la "
-               "llave.\n\n[4] - Salir\n\n>>> ";
+               "llave.\n[4] - Eliminar usuario de la llave.\n\n[5] - Mostrar historial.\n\n[6] - Notificar incidencia.\n\n[7] - Salir.\n\n>>> ";
     std::string opcion;
     std::cin >> opcion;
     std::cout << "\n";
@@ -93,12 +93,34 @@ void MenuLlave(Key& llave, KeySystem& sistema) {
         std::cout << "¿A qué usuario desea darle permisos?: ";
         std::cin >> nuevo_usuario;
         if (sistema.userExists(nuevo_usuario))
-          sistema.addUserToKey(llave, usuario);
+          sistema.addUserToKey(llave, sistema.getUser(nuevo_usuario));
         else
           std::cout << "Usuario no existente.\n";
         break;
       }
-      case '4':
+      case '4': {
+        std::string eliminar_usuario;
+        std::cout << "¿A qué usuario desea eliminar de la llave?: ";
+        std::cin >> eliminar_usuario;
+        if (sistema.userExists(eliminar_usuario))
+          sistema.delUserFromKey(llave, sistema.getUser(eliminar_usuario));
+        else
+          std::cout << "Usuario no existente.\n";
+        break;
+      }
+      case '5':
+        llave.printRegistry();
+        break;
+      case '6': {
+        std::string incidencia;
+        std::cout << "Describa la incidencia: ";
+        std::cin.ignore();
+        std::getline(std::cin, incidencia);
+        llave.addNotification(usuario, incidencia);
+        std::cout << "Incidencia registrada correctamente, un administrador le contactará pronto\n";
+        break;
+      }
+      case '7':
         return;
       default:
         std::cout << "Opción errónea\n";
@@ -118,8 +140,9 @@ void MenuSistema(KeySystem& sistema) {
   while (true) {
     std::cout << "*** Sistema de gestión de cerraduras ***\n";
     std::cout << "\n[1] - Seleccionar llave.\n\n[2] - Añadir llave al "
-                 "sistema.\n[3] - Añadir usuario al sistema.\n\n[4] - Mostrar "
-                 "llaves.\n[5] - Mostrar usuarios.\n\n[6] - Salir\n\n>>> ";
+                 "sistema.\n[3] - Añadir usuario al sistema.\n\n[4] - Eliminar llave del "
+                 "sistema.\n[5] - Eliminar usuario del sistema.\n\n[6] - Mostrar "
+                 "llaves.\n[7] - Mostrar usuarios.\n\n[8] - Salir.\n\n>>> ";
     std::string opcion;
     std::cin >> opcion;
     std::cout << "\n";
@@ -139,10 +162,10 @@ void MenuSistema(KeySystem& sistema) {
             std::cout << "La ID debe ser numérica.\n\n";
             continue;
           }
-          if (key_id >= Key::contador_id_keys) {
-            std::cout << "¡Llave no existente!\n";
-          } else {
+          if (sistema.keyExists(key_id)) {
             MenuLlave(sistema.getKey(key_id), sistema);
+          } else {
+            std::cout << "¡Llave no existente!\n";
           }
         }
         break;
@@ -164,14 +187,43 @@ void MenuSistema(KeySystem& sistema) {
         break;
       }
       case '4': {
-        sistema.mostrarLlaves();
+        unsigned key_id;
+        std::string str;
+        std::cout << "Introduce la ID de la llave a eliminar >>> ";
+        std::cin >> str;
+        try {
+          key_id = std::stoi(str);
+        } catch (std::invalid_argument& exp) {
+          std::cout << "La ID debe ser numérica.\n\n";
+          continue;
+        }
+        if (sistema.keyExists(key_id)) {
+          sistema.delKey(sistema.getKey(key_id));
+        } else {
+          std::cout << "¡Llave no existente!\n";
+        }
         break;
       }
       case '5': {
+        std::string str;
+        std::cout << "Introduce el nombre del usuario >>> ";
+        std::cin >> str;
+        if (sistema.userExists(str)) {
+          sistema.delUser(sistema.getUser(str));
+        } else {
+          std::cout << "Usuario no existente.\n";
+        }
+        break;
+      }
+      case '6': {
+        sistema.mostrarLlaves();
+        break;
+      }
+      case '7': {
         sistema.mostrarUsuarios();
         break;
       }
-      case '6':
+      case '8':
         return;
       default:
         std::cout << "Opción errónea\n";

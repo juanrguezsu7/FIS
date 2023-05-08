@@ -14,6 +14,7 @@ void Key::open(const User& user) {
         std::cout << "Cerradura " << id_ << " abierta por " << user.getName()
                   << "." << '\n';
         state_ = true;
+        historial_.addActionEntry(user.getName(), true);
       } else {
         std::cout << "La cerradura " << id_ << " ya está abierta." << '\n';
       }
@@ -38,6 +39,7 @@ void Key::close(const User& user) {
         std::cout << "Cerradura " << id_ << " cerrada por " << user.getName()
                   << "." << '\n';
         state_ = false;
+        historial_.addActionEntry(user.getName(), false);
       } else {
         std::cout << "La cerradura " << id_ << " ya está cerrada." << '\n';
       }
