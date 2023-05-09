@@ -39,5 +39,3 @@ El siguiente ejecutable es un sistema de gestión de cerraduras inteligentes cre
 - [x] Eliminar usuario
 - [x] Eliminar llave
 - [x] Notificar incidencia
-
-## Funciones faltantes
