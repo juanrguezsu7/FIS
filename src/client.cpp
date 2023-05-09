@@ -1,7 +1,9 @@
 #include "client_functions.hpp"
 
 int main(int argc, char* argv[]) {
-  system("clear");
+  #ifndef _WIN32
+    system("clear");
+  #endif
 
   KeySystem sistema;
 
@@ -13,7 +15,9 @@ int main(int argc, char* argv[]) {
 
   MenuSistema(sistema);
 
-  system("clear");
+  #ifndef _WIN32
+    system("clear");
+  #endif
 
   return EXIT_SUCCESS;
 }

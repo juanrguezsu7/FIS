@@ -30,9 +30,11 @@ void Pausar(const unsigned segundos) {
 int Autenticacion(User& usuario, Key& llave, KeySystem& sistema) {
   int intentos_restantes{INTENTOS_RESTANTES};
   while (intentos_restantes > 0) {
-    system("clear");
-    std::cout << "\n*** Autenticación ***\n\n";
-    std::cout << "Nombre >>> ";
+    #ifndef _WIN32
+      system("clear");
+    #endif
+    std::cout << "*** Autenticación en el sistema ***\n\n";
+    std::cout << "Nombre de usuario >>> ";
     std::string nombre;
     std::cin >> nombre;
     if (!sistema.userExists(nombre)) {
@@ -74,7 +76,9 @@ void MenuLlave(Key& llave, KeySystem& sistema) {
     return;
   }
   while (true) {
-    system("clear");
+    #ifndef _WIN32
+      system("clear");
+    #endif
     std::cout << "*** Gestión de la llave ID(" << llave.getId()
               << ") como USER(" << user.getName()
               << ") ***\n\n"
@@ -187,7 +191,9 @@ void MenuLlave(Key& llave, KeySystem& sistema) {
  */
 void MenuSistema(KeySystem& sistema) {
   while (true) {
-    system("clear");
+    #ifndef _WIN32
+      system("clear");
+    #endif
     std::cout << "*** Sistema de gestión de cerraduras ***\n";
     std::cout
         << "\n[1] - Seleccionar llave.\n\n[2] - Añadir llave al "
