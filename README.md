@@ -33,6 +33,7 @@ El siguiente ejecutable es un sistema de gestión de cerraduras inteligentes cre
 - [x] Mostrar llaves
 - [x] Mostrar usuarios
 - [x] Seleccionar llave
+- [x] Cambiar contraseña llave
 - [x] Salir
 - [x] Ver historial de la llave(incidencias/usos)
 - [x] Eliminar acceso de usuario a llave
