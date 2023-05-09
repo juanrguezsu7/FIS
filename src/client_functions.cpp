@@ -78,7 +78,8 @@ void MenuLlave(Key& llave, KeySystem& sistema) {
     std::cout << "*** Gestión de la llave ID(" << llave.getId()
               << ") como USER(" << user.getName()
               << ") ***\n\n"
-                 "[1] - Mostrar llave.\n"
+                 "[0] - Mostrar llave.\n"
+                 "[1] - Cambiar contraseña.\n"
                  "[2] - Abrir/Cerrar.\n\n"
                  "[3] - Mostrar si el usuario tiene acceso.\n"
                  "[4] - Añadir usuario a la llave.\n"
@@ -90,12 +91,29 @@ void MenuLlave(Key& llave, KeySystem& sistema) {
     std::cin >> opcion;
     std::cout << "\n";
     switch (opcion[0]) {
-      case '1': {  // Mostrar llave
+      case '0': {  // Mostrar llave
         std::cout << "ID/Contraseña/Estado: " << llave.getId() << '/';
         for (int i{0}; i < llave.getPassword().length(); ++i) {
           std::cout << '*';
         }
         std::cout << '/' << (llave.getState() ? "Abierta" : "Cerrada");
+        break;
+      }
+      case '1':{  // Cambiar contraseña
+      std::string str_old, str_new;
+        std::cout << "Introduce la contraseña actual >>> ";
+        std::cin >> str_old;
+        if (str_old != llave.getPassword()) {
+          std::cout << "Contraseña incorrecta.";
+        } else {
+          std::cout << "Contraseña correcta.\n";
+          std::string str_new;
+          std::cout << "Introduce la contraseña nueva >>> ";
+          std::cin >> str_new;
+          llave.setPassword(str_new);
+          std::cout << "Contraseña cambiada correctamente.";
+        }
+        std::cout << '\n';
         break;
       }
       case '2': {  // Abrir/Cerrar
