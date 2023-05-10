@@ -25,8 +25,7 @@ El siguiente ejecutable es un sistema de gestión de cerraduras inteligentes cre
 
 ## Funciones implemantadas
 
-- [x] Abrir
-- [x] Cerrar
+- [x] Abrir/Cerrar
 - [x] Crear llave
 - [x] Crear usuario
 - [x] Añadir a usuario acceso a llave
